@@ -687,13 +687,17 @@ if menu == "Agendar Atendimento":
         if "mostrar_aviso_vagas" not in st.session_state:
             st.session_state.mostrar_aviso_vagas = False
 
+        tipo = st.selectbox(
+            "Tipo de Atendimento",
+            ["Psicológico", "Pedagógico"],
+            key="tipo_atendimento",
+        )
+
         with st.form("form_agendamento"):
             nome = st.text_input(
                 "Nome Completo", placeholder="Digite seu nome completo...")
             turno = st.selectbox(
                 "Seu Turno", ["Matutino", "Vespertino", "Noturno"])
-            tipo = st.selectbox("Tipo de Atendimento", [
-                                "Psicológico", "Pedagógico"])
 
             # Obter a profissional baseado no tipo de atendimento
             session = Session()
@@ -719,6 +723,7 @@ if menu == "Agendar Atendimento":
                 data_escolhida = st.selectbox(
                     "Escolha a Data",
                     datas_disponiveis,
+                    key=f"data_atendimento_{profissional.id}",
                     format_func=lambda x: f"{x.strftime('%d/%m/%Y')} ({DIA_SEMANA_NOMES[x.weekday()]})"
                 )
 
